@@ -16,7 +16,11 @@ class openldap::params {
       }
     }
     'RedHat': {
-      $client_package           = 'openldap'
+      $client_package           = $::operatingsystemmajrelease ? {
+        '5' => 'openldap',
+        '6' => 'openldap',
+        '7' => 'openldap-clients',
+      }
       $client_conffile          = '/etc/openldap/ldap.conf'
       $server_confdir           = '/etc/openldap/slapd.d'
       $server_conffile          = '/etc/openldap/slapd.conf'
@@ -26,6 +30,7 @@ class openldap::params {
       $server_service           = $::operatingsystemmajrelease ? {
         '5' => 'ldap',
         '6' => 'slapd',
+        '7' => 'slapd',
       }
       $server_service_hasstatus = true
     }
