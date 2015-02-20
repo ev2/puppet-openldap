@@ -22,7 +22,12 @@ Puppet::Type.newtype(:openldap_database) do
       when 'Debian'
         'hdb'
       when 'RedHat'
-        'bdb'
+        case Facter.value(:operatingsystemmajrelease)
+        when '5', '6'
+          'bdb'
+        when '7'
+          'hdb'
+        end
       end
     end
   end
